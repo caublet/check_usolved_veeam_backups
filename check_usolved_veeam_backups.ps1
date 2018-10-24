@@ -130,19 +130,21 @@ if($output_jobs_failed -ne "")
 {
 	$output_jobs_failed 	= $output_jobs_failed.Substring(0, $output_jobs_failed.Length-2)
 	
-	$nagios_output += "`nFailed: " + $output_jobs_failed
+	$nagios_output += "( Failed: " + $output_jobs_failed + " ) "
 }
 
 if($output_jobs_warning -ne "")
 {
 	$output_jobs_warning 	= $output_jobs_warning.Substring(0, $output_jobs_warning.Length-2)
 	
-	$nagios_output += "`nWarning: " + $output_jobs_warning
+	$nagios_output += "( Warning: " + $output_jobs_warning + " ) "
 }
 
 if($nagios_state -eq 1 -or $nagios_state -eq 2)
 {
 	Write-Host "Backup Status - Failed: "$output_jobs_failed_counter" / Warning: "$output_jobs_warning_counter" / OK: "$output_jobs_success_counter" / None: "$output_jobs_none_counter" / Skipped: "$output_jobs_skipped_counter $nagios_output
+    #Forcing all alerts to be warnings
+    $nagios_state = 1
 }
 else
 {
